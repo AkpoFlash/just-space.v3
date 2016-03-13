@@ -329,10 +329,10 @@ jQuery('.fit').fitVids();
 		}
 		
 /* ======= VALIDATE FORM BEFORE SEND ======= */
-		var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+		var telReg = /^[\d]{6,10}$/;
 
 		var standard_pt = $("#form-ajax #personal").val();
-		var standard_et = $("#form-ajax #email").val();
+		var standard_et = $("#form-ajax #tel").val();
 		var standard_wt = $("#form-ajax #website").val();
 		var standard_mt = $("#form-ajax #message-contact").val();
 		
@@ -354,8 +354,17 @@ jQuery('.fit').fitVids();
 			}
 		});
 		
-		$("#form-ajax #email").blur(function() {
-			if($(this).val() === '' || !emailReg.test($.trim($(this).val())) || $(this).val() === standard_et) {
+		$("#form-ajax #tel").blur(function() {
+			if($(this).val() === '' || !telReg.test($.trim($(this).val())) || $(this).val() === standard_et) {
+				$(this).addClass('error-input');
+			}
+			else {
+				$(this).removeClass('error-input');
+			}
+		});
+
+		$("#form-ajax #website").blur(function() {
+			if($(this).val() === '' || $(this).val() === standard_wt) {
 				$(this).addClass('error-input');
 			}
 			else {
@@ -366,14 +375,14 @@ jQuery('.fit').fitVids();
 /* ======= CONTACT FORM AJAX ======= */
 		$('#form-ajax').submit(function() {
 			var errors = false;
-			var email_field = $("#email");
+			var tel_field = $("#tel");
 			var personal_field = $("#personal");
 			var message_text = $("#message-contact");
 			var website_field = $("#website");
                         var form_url = 'files/contact-form.php';
 			
-            if(!emailReg.test($.trim(email_field.val()))) {
-				email_field.addClass("error-input");
+            if(!telReg.test($.trim(tel_field.val()))) {
+				tel_field.addClass("error-input");
 				errors = true;
 			}
 			
@@ -395,7 +404,7 @@ jQuery('.fit').fitVids();
 					website_field.val('');
 				}
 				message_text.removeClass("error-input");
-				email_field.removeClass("error-input");
+				tel_field.removeClass("error-input");
 				personal_field.removeClass("error-input");
 				var formInput = $(this).serialize();
 				
